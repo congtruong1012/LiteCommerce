@@ -1,0 +1,103 @@
+﻿@model LiteCommerce.DomainModels.Customer
+    <div class="box box-primary">
+        <form action="~/Customer/Input" method="post" id="Customer">
+            <div class="box-body">
+                <input type="hidden" name="method" value="@ViewBag.method" />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span style="color: red">@Html.ValidationMessage("id")</span>
+                        <span style="color: red">@Html.ValidationMessage("errorAddr")</span>    
+                        @if (ViewBag.method == "Add")
+                        {
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Customer ID</label>
+                                <input class="form-control" required type="text" name="CustomerID" value="@ViewBag.CustomerID" placeholder="Customer ID"/>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Customer ID</label>
+                                <input class="form-control" disabled id="CustomerID" type="text" name="CustomerID" value="@Model.CustomerID" placeholder="Customer ID" />
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Company Name</label>
+                    <input name="CompanyName" required value="@Model.CompanyName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Company Name">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Contact Name</label>
+                            <input name="ContactName" required value="@Model.ContactName" type="text" class="form-control" id="exampleInputPassword1" placeholder="Contact Name">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Contact Title</label>
+                            <input name="ContactTitle" required value="@Model.ContactTitle" type="text" class="form-control" id="exampleInputPassword1" placeholder="Contact Title">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Address</label>
+                    <input name="Address"required  value="@Model.Address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Address">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">City</label>
+                            <input name="City" required value="@Model.City" type="text" class="form-control" id="exampleInputPassword1" placeholder="City">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Counntry</label>
+                            <select class="form-control" name="Country">
+                                <option value="">-- Choose Country -- </option>
+                                @foreach (var country in SelectListHelper.listCountrys())
+                                {
+                                    if (country.Value == Model.Country)
+                                    {
+                                        <option value="@country.Value" selected="selected">@country.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@country.Value">@country.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Phone</label>
+                            <input name="Phone" required value="@Model.Phone" type="text" class="form-control" id="exampleInputPassword1" placeholder="Phone">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Fax</label>
+                            <input name="Fax" required value="@Model.Fax" type="text" class="form-control" id="exampleInputPassword1" placeholder="Fax">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <div class="col-sm-12">
+                    <button type="submit" style="margin-right: 10px" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                    <a href="~/Customer" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+

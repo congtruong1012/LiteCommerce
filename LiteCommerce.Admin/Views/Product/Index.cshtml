@@ -1,0 +1,172 @@
+﻿@model LiteCommerce.Admin.Models.ProductPaginationResult
+@{
+    ViewBag.Title = "Manage Product";
+    int i = 0;
+}
+<div class="box box-primary">
+    <form action="~/Product" method="get">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="input-group input-group-sm" style="width: 100%">
+                        @*<select class="form-control" name="Category">
+                            <option value="0">-- Choose Category --</option>
+                            @foreach (var item in ViewData["Category"] as List<LiteCommerce.DomainModels.Category>)
+                            {
+                                if (item.CategoryID == Model.Category)
+                                {
+                                    <option selected="selected" value="@item.CategoryID">@item.CategoryName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.CategoryID">@item.CategoryName</option>
+                                }
+                            }
+                        </select>*@
+                        @Html.DropDownListFor(m => m.Category,
+                                                      SelectListHelper.Category(),
+                                                      new { @class="form-control", @name="Category"})
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group input-group-sm" style="width: 100%">
+                        @*<select class="form-control" name="Supplier">
+                            <option value="0">-- Choose Supplier --</option>
+                            @foreach (var item in ViewData["Supplier"] as List<LiteCommerce.DomainModels.Supplier>)
+                            {
+                                if (item.SupplierID == Model.Supplier)
+                                {
+                                    <option selected="selected" value="@item.SupplierID">@item.CompanyName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.SupplierID">@item.CompanyName</option>
+                                }
+                            }
+                        </select>*@
+
+                        @Html.DropDownListFor(m => m.Supplier,
+                                                          SelectListHelper.Supplier(),
+                                                          new { @class = "form-control", @name = "Supplier" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    @*<div class="input-group input-group-sm" style="width: 100%">
+                        <select class="form-control">
+                            <option value="">-- Price --</option>
+                            <option value="1">Trên 500</option>
+                            <option value="1">Từ 100 đến 500</option>
+                            <option value="1">Dưới 500</option>
+                        </select>
+                    </div>*@
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group input-group-sm">
+                        <input name="searchValue" type="text" class="form-control" placeholder="Nhập giá trị cần tìm....." value="@Model.searchValue">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<form action="~/Product/Delete" method="post">
+    <div class="container-fluid row" style="margin-bottom: 10px">
+        <div class="col-sm-8">
+            There are <b>@Model.RowCount </b> products. Page @Model.Page/@Model.PageCount
+        </div>
+        <div class="col-sm-4 text-right">
+            <div class="btn-group ">
+                <a href="~/Product/Input" class="btn btn-primary btn-sm">Add Product</a>
+                <button type="submit" class="btn btn-danger btn-sm">Delete Products</button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 30px">
+                            <input type="checkbox" name="" value="" class="listCheck" />
+                        </th>
+                        <th style="width: 50px">#</th>
+                        <th style="width: auto">Name</th>
+                        <th style="width: 150px">Supplier</th>
+                        <th style="width: 300px">Product Info</th>
+                        <th style="width: 100px; text-align:center">Photo Path</th>
+                        <th style="width: 80px; text-align: center">View </th>
+                        <th style="width: 80px; text-align: center">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="ProductIDs" value="@item.ProductID" class="checkItem" />
+                            </td>
+                            <td>@(++i)</td>
+                            <td>
+                                <span class="text-primary" style="font-weight:bolder">@item.ProductName</span><br />
+                                <span style="font-weight:bold; margin-right: 5px">Category:  </span>
+                                @foreach (var item1 in SelectListHelper.Category())
+                                {
+                                    if (item.CategoryID.ToString() == item1.Value)
+                                    {
+                                        <span class="text-muted">@item1.Text</span>
+                                    }
+                                }
+
+                            </td>
+                            <td>
+                                @foreach (var item1 in SelectListHelper.Supplier())
+                                {
+                                    if (item.SupplierID.ToString() == item1.Value)
+                                    {
+                                        <span>@item1.Text</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <span style="font-weight:bold; margin-right: 5px">Quantity Per Unit: </span>
+                                <span class="text-muted">@item.QuantityPerUnit</span><br />
+                                <span style="font-weight:bold; margin-right: 5px">Unit Price: </span>
+                                <span class="text-muted">@item.UnitPrice</span>
+                            </td>
+                            <td>
+                                <div style="display: block; text-align: center">
+                                    <img src="~/Images/@item.PhotoPath" height="50px" width="50px" style="object-fit:contain;" alt="Alternate Text" />
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <a href="~/Product/Detail/@item.ProductID" class="btn btn-default"><i class="fa fa-info"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="~/Product/Input/@item.ProductID" class="btn btn-default">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/Product?page=1&searchValue=@Model.searchValue&category=@Model.Category&supplier=@Model.Supplier"><i class="fa fa-angle-double-left"></i></a></li>
+                @for (int page = 1; page <= Model.PageCount; page++)
+                {
+                    <li><a href="~/Product?page=@page&searchValue=@Model.searchValue&category=@Model.Category&supplier=@Model.Supplier">@page</a></li>
+                }
+                <li><a href="~/Product?page=@Model.PageCount&searchValue=@Model.searchValue&category=@Model.Category&supplier=@Model.Supplier"><i class="fa fa-angle-double-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</form>
+
+

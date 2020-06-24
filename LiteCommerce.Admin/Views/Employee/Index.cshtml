@@ -1,0 +1,126 @@
+﻿@model LiteCommerce.Admin.Models.EmployeePaginationResult
+@{
+    ViewBag.Title = "Manager Employee";
+    int i = 1;
+}
+<div class="box box-primary">
+    <form action="#" method="get">
+        <div class="box-body">
+            <div class="col-sm-6">
+                <div class="input-group input-group-sm" style="width: 100%">
+                    <select name="country" class="form-control">
+                        <option value="">-- All Countries --</option>
+                        @foreach (var country in SelectListHelper.listCountrys())
+                        {
+                            if (country.Value == Model.Country)
+                            {
+                                <option selected="selected" value="@country.Value">@country.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@country.Value">@country.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group input-group-sm">
+                    <input name="searchVALUE" type="text" class="form-control" placeholder="Nhập giá trị cần tìm....." value="@Model.searchValue">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-info btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<form action="~/Employee/Delete" method="post">
+    <div class="container-fluid row" style="margin-bottom: 10px">
+        <div class="col-sm-8">
+            There are <b>@Model.RowCount </b> employees. Page @Model.Page on @Model.PageCount
+        </div>
+        <div class="col-sm-4 text-right">
+            <div class="btn-group ">
+                <a href="~/Employee/Input" class="btn btn-primary btn-sm">Add Employee</a>
+                <button type="submit" class="btn btn-danger btn-sm">Delete Employees</button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 30px">
+                            <input type="checkbox" name="" value="" class="listCheck" />
+                        </th>
+                        <th style="width: 50px">#</th>
+                        <th style="width: auto">Name</th>
+                        <th style="width: 100px">HireDate</th>
+                        <th style="width: 200px">Address</th>
+                        <th style="width: 200px">Contact info</th>
+                        <th style="width: 100px">Photo Path</th>
+                        <th style="width: 80px; text-align: center">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="EmployeeIDs" value="@item.EmployeeID" class="checkItem" />
+                            </td>
+                            <td>@(i++)</td>
+                            <td>
+                                <div>
+                                    <span class="text-primary" style="font-weight: 600">@item.LastName @item.FirstName</span><br />
+                                    <span style="margin-right: 5px; font-weight: 600">BirthDay:</span><span>@item.BirthDate.Day/@item.BirthDate.Month/@item.BirthDate.Year</span>
+
+                                </div>
+                            </td>
+                            <td>@item.HireDate.Day/@item.HireDate.Month/@item.HireDate.Year</td>
+                            <td>
+                                <span>@item.Address</span> <br />
+                                <span>@item.City -</span>
+                                @foreach (var country in SelectListHelper.listCountrys())
+                                {
+                                    if (item.Country == country.Value)
+                                    {
+                                        <span>@country.Value</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <span class="" style="display: block"> <i class="fa fa-phone"></i> @item.HomePhone</span>
+                                <span class="" style="display: block"> <i class="fa fa-envelope"></i> @item.Email</span>
+                            </td>
+                            <td>
+                                <div style="display: block; text-align: center">
+                                    <img src="~/Images/@item.PhotoPath" height="50px" width="50px" style="object-fit:contain;" alt="Alternate Text" />
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <a href="~/Employee/Input/@item.EmployeeID" class="btn btn-default">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/Employee?page=1&searchValue=@Model.searchValue&country=@Model.Country"><i class="fa fa-angle-double-left"></i></a></li>
+                @for (int page = 1; page <= Model.PageCount; page++)
+                {
+                    <li><a href="~/Employee?page=@page&searchValue=@Model.searchValue&country=@Model.Country">@page</a></li>
+                }
+                <li><a href="~/Employee?page=@Model.PageCount&searchValue=@Model.searchValue&country=@Model.Country"><i class="fa fa-angle-double-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</form>

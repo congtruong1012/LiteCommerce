@@ -1,0 +1,96 @@
+﻿@model LiteCommerce.Admin.Models.CustomerPaginationResult
+@{
+    ViewBag.Title = "Manage Customer";
+    int i = 0;
+}
+
+<div class="box box-primary">
+    <form action="~/Customer" method="get">
+        <div class="box-body">
+            <div  class="input-group input-group-sm">
+                <input name="searchValue" type="text" class="form-control" placeholder="Nhập giá trị cần tìm....." value="@Model.searchValue">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-info btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<form action="~/Customer/Delete" method="post">
+    <div class="container-fluid row" style="margin-bottom: 10px">
+        <div class="col-sm-8">
+            There are <b>@Model.RowCount </b> customers. Page @Model.Page on @Model.PageCount
+        </div>
+        <div class="col-sm-4 text-right">
+            <div class="btn-group ">
+                <a href="~/Customer/Input" class="btn btn-primary btn-sm">Add Customer</a>
+                <button type="submit" value="method" class="btn btn-danger btn-sm" onclick="return confirm("Xác nhận xóa?")">Delete Customers</button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 30px">
+                            <input type="checkbox" name="name" value="" class="listCheck" />
+                        </th>
+                        <th style="width: 50px">#</th>
+                        <th style="width: auto">Name</th>
+                        <th style="width: 200px">Address</th>
+                        <th style="width: 200px">Contact info</th>
+                        <th style="width: 80px; text-align: center">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model.Data) { 
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="CustomerIDs" value="@item.CustomerID" class="checkItem" />
+                        </td>
+                        <td>@(++i)</td>
+                        <td>
+                            <span class="text-primary" style="font-weight:bolder">@item.CompanyName</span><br />
+                            <span class="text-muted">@item.ContactName: </span>
+                            <span style="font-weight:bold; margin-left: 5px">@item.ContactTitle</span>
+                        </td>
+                        <td>
+                            <span>@item.Address</span> <br />
+                            <span>@item.City -</span>
+                            @foreach (var country in SelectListHelper.listCountrys())
+                            {
+                                if (country.Value == item.Country)
+                                {
+                                    <span>@country.Value</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <span class="" style="display: block"> <i class="fa fa-phone"></i> @item.Phone</span>
+                            <span class="" style="display: block"> <i class="fa fa-fax"></i> @item.Fax</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="~/Customer/Input/@item.CustomerID" class="btn btn-default">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/Customer?page=1&searchValue=@Model.searchValue"><i class="fa fa-angle-double-left"></i></a></li>
+                @for (int page = 1; page <= Model.PageCount; page++)
+                {
+                    <li><a href="~/Customer?page=@page&searchValue=@Model.searchValue">@page</a></li>
+                }
+                <li><a href="~/Customer?page=@Model.PageCount&searchValue=@Model.searchValue"><i class="fa fa-angle-double-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</form>

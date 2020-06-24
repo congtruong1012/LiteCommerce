@@ -1,0 +1,94 @@
+﻿
+@model LiteCommerce.DomainModels.Supplier
+@{ 
+}
+    <div class="box box-primary">
+        <span style="color: red">@Html.ValidationMessage("errorAddr")</span>
+        <form action="~/Supplier/Input" method="post">
+            <div class="box-body">
+                <input type="hidden" name="SupplierID" value="@Model.SupplierID" />
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Company Name</label>
+                    <input value="@Model.CompanyName" required name="CompanyName" type="text" class="form-control"  placeholder="Company Name">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Contact Name</label>
+                            <input name="ContactName" required value="@Model.ContactName" type="text" class="form-control"  placeholder="Contact Name">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Contact Title</label>
+                            <input name="ContactTitle" required value="@Model.ContactTitle" type="text" class="form-control"  placeholder="Contact Title">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Address</label>
+                    <input type="text" name="Address" required value="@Model.Address" class="form-control"  placeholder="Address">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">City</label>
+                            <input name="City" required value="@Model.City" type="text" class="form-control"  placeholder="City">
+                        </div>
+                        @Html.ValidationMessage("City")
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Counntry</label>
+                            <select class=" form-control" name="Country">
+                                <option value="">-- Choose Country --</option>
+                                @foreach (var country in SelectListHelper.listCountrys())
+                                {
+                                    if (Model.Country == country.Value)
+                                    {
+                                        <option value="@country.Value" selected="selected">@country.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@country.Value">@country.Value</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Phone</label>
+                            <input name="Phone" required value="@Model.Phone" type="text" class="form-control"  placeholder="Phone">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Fax</label>
+                            <input name="Fax" required value="@Model.Fax" type="text" class="form-control"  placeholder="Fax">
+                        </div>
+                        @Html.ValidationMessage("Fax")
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">HomePage</label>
+                            <input name="HomePage" required value="@Model.HomePage" type="text" class="form-control"  placeholder="cx: http://company.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <div class="col-sm-12">
+                    <button type="submit" style="margin-right: 10px" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                    <a href="~/Supplier" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>

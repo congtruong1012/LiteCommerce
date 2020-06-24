@@ -1,0 +1,31 @@
+﻿@model LiteCommerce.DomainModels.Shipper
+<div class="box box-primary">
+    <form action="~/Shipper/Shipper_controller" method="post">
+        <div class="box-body">
+            <div class="row">
+                <input type="hidden" name="shipperID" value="@Model.ShipperID" />
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Company Name</label>
+                        <input required name="companyName" type="text" class="form-control"  placeholder="Company Name" value="@Model.CompanyName">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Phone</label>
+                        <input name="phone" required type="text" class="form-control"  placeholder="Phone" value="@Model.Phone">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+            <div class="col-sm-12">
+                <button type="submit" style="margin-right: 10px" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                <a href="~/Shipper" class="btn btn-danger">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+

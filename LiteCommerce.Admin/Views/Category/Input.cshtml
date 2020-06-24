@@ -1,0 +1,32 @@
+﻿@model LiteCommerce.DomainModels.Category
+<div class="box box-primary">
+    <form action="~/Category/Input">
+        <div class="box-body">
+            <div class="row">
+                <input type="hidden" name="CategoryID" value="@Model.CategoryID" />
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Category Name</label>
+                        <input name="CategoryName" required value="@Model.CategoryName" type="text" class="form-control"  placeholder="Category Name">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Description</label>
+                        <textarea class="form-control" required name="Description" rows="10" placeholder="Description">@Model.Description</textarea>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+            <div class="col-sm-12">
+                <button type="submit" style="margin-right: 10px" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                <a href="~/Category" class="btn btn-danger">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,9 @@
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DataLayers.dll
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DataLayers.pdb
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.csprojAssemblyReference.cache
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.csproj.CoreCompileInputs.cache
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.dll
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.pdb
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DomainModels.dll
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\bin\Debug\LiteCommerce.DomainModels.pdb
+D:\xampp\C-Sharp\LiteCommerce\LiteCommerce.DataLayers\obj\Debug\LiteCommerce.DataLayers.csproj.CopyComplete
