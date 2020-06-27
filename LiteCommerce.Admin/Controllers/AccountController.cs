@@ -133,11 +133,60 @@ namespace LiteCommerce.Admin.Controllers
         {
             return View();
         }
+        
+        public void SendVerificationLinkEmail(string emailID, string emailFor = "VerifyAccount")
+        {
+            var verifyUrl = "/Account/ResetPassword?email="+emailID;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+
+            var fromEmail = new MailAddress("congtruong1012@gmail.com", "Forgot Password");
+            var toEmail = new MailAddress(emailID);
+            var fromEmailPassword = "01694958406";
+            // link uy quyen https://www.google.com/settings/security/lesssecureapps
+
+            string subject = "";
+            string body = "";
+            if (emailFor == "VerifyAccount")
+            {
+                subject = "Tai khoan cua ban da duoc tao!";
+
+                body = "<br/><br/>We are excited to tell you that your Dotnet Awesome account is" +
+                   " successfully created. Please click on the below link to verify your account" +
+                   " <br/><br/><a href='" + link + "'>Click here</a> ";
+            }
+            else
+            {
+                subject = "Forgot your LiteCommerce password";
+
+                body = "<br/><br/>Click vào link bên dưới để đến trang reset password" +
+                   " <br/><br/><a href='" + link + "'>Click here</a> ";
+            }
+
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+            };
+
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
+        }
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult ForgotPwd(string email)
         {
             var emptyEmail = AccountBLL.GetProfile(email);
-            if(emptyEmail == null)
+            if (emptyEmail == null)
             {
                 ModelState.AddModelError("checkEmail", "Không tồn tại email");
             }
@@ -146,44 +195,44 @@ namespace LiteCommerce.Admin.Controllers
                 ViewBag.email = email;
                 return View();
             }
-            MailMessage msg = new MailMessage();
-
-            msg.From = new MailAddress("congtruong1012@gmail.com");
-            msg.To.Add(email);
-            msg.Subject = "password";
-            msg.Body = "hello " + emptyEmail.LastName + " " + emptyEmail.FirstName + ",<br/> your account has been created < br /> username: " + emptyEmail.Email + " < br /> password: " + emptyEmail.Password + " < br /> change it on first loggin";
-            msg.Priority = MailPriority.High;
-            using (SmtpClient client = new SmtpClient())
-            {
-                client.EnableSsl = true;
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("congtruong1012@gmail.com", "dip", "smtp.gmail.com");
-                client.Host = "smtp.gmail.com";
-                client.Port = 587;
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                client.Send(msg);
-            }
-            //string address = "congtruong1012@gmail.com";
-            //string password = "put-your-GMAIL-password-here";
-
-            //var loginInfo = new NetworkCredential(email, password);
-            //var msg = new MailMessage();
-            //var smtpClient = new SmtpClient("smtp.gmail.com", 587);
-
-            //msg.From = new MailAddress(address);
-            //msg.To.Add(new MailAddress(email));
-            //msg.Subject = "Password";
-            //msg.Body = "Hello " + emptyEmail.LastName + " " + emptyEmail.FirstName + ",<br/> Your account has been created < br /> Username: " + emptyEmail.Email + " < br /> Password: " + emptyEmail.Password + " < br /> change it on first loggin"; ;
-            //msg.IsBodyHtml = true;
-
-            //smtpClient.EnableSsl = true;
-            //smtpClient.UseDefaultCredentials = false;
-            //smtpClient.Credentials = loginInfo;
-            //smtpClient.Send(msg);
+            string resetCode = Guid.NewGuid().ToString();
+            SendVerificationLinkEmail(email,  "ResetPassword");
 
             ViewBag.success = "Đã gửi email. Vui lòng đăng nhập email để thay đổi mật khẩu";
             return View();
+            
+        }
+        public ActionResult ResetPassword(string email="")
+        {
+            ViewBag.email = email;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ResetPassword(string email = "", string newPassword = "", string confirmPassword = "")
+        {
+            if(newPassword != confirmPassword)
+            {
+                ModelState.AddModelError("newPass", "Mật khẩu mới và nhập lại mật khẩu không khớp");
+            }
+            if (!ModelState.IsValid)
+            {
+                ViewBag.email = email;
+                ViewBag.newPass = newPassword;
+                ViewBag.confirmPass = confirmPassword;
+                return View();
+            }
+            var reset = AccountBLL.Change_Pass(email, EncodeMD5.GetMD5(newPassword));
+            if (reset)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                ViewBag.email = email;
+                ViewBag.newPass = newPassword;
+                ViewBag.confirmPass = confirmPassword;
+                return View();
+            }
             
         }
         [HttpPost]
@@ -220,5 +269,6 @@ namespace LiteCommerce.Admin.Controllers
             }
             return Content(rs);
         }
+
     }
 }
