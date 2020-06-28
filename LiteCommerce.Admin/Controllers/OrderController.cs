@@ -10,6 +10,7 @@ namespace LiteCommerce.Admin.Controllers
 {
     public class OrderController : Controller
     {
+	//Hiển thị danh sách hóa đơn
         [AuthorizeRedirect(Roles = WebUserRoles.SALEMAN)] 
         public ActionResult Index(int page = 1, string customerID = "", int employeeID = 0, int shipperID = 0)
         {
