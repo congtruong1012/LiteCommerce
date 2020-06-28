@@ -10,6 +10,7 @@ namespace LiteCommerce.DataLayers
     public interface IOrderDAL
     {
         List<Order> List(int page, int pageSize, string customerID, int employeeID, int shipperID);
+        Order Get(int orderID);
         int Count(int page, int pageSize, string customerID, int employeeID, int shipperID);
         bool Delete(int[] orderIDs);
     }

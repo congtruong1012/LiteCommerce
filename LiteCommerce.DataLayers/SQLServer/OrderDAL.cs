@@ -75,6 +75,45 @@ namespace LiteCommerce.DataLayers.SQLServer
             return result;
         }
 
+        public Order Get(int orderID)
+        {
+            Order data = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"SELECT * FROM Orders WHERE OrderID = @orderID";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@orderID", orderID);
+
+                using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    if (dbReader.Read())
+                    {
+                        data = new Order()
+                        {
+                            OrderID = Convert.ToInt32(dbReader["OrderID"]),
+                            CustomerID = Convert.ToString(dbReader["CustomerID"]),
+                            EmployeeID = Convert.ToInt32(dbReader["EmployeeID"]),
+                            OrderDate = Convert.ToDateTime(dbReader["OrderDate"]),
+                            RequiredDate = Convert.ToDateTime(dbReader["RequiredDate"]),
+                            ShippedDate = Convert.ToDateTime(dbReader["ShippedDate"]),
+                            ShipperID = Convert.ToInt32(dbReader["ShipperID"]),
+                            Freight = Convert.ToInt32(dbReader["Freight"]),
+                            ShipAddress = Convert.ToString(dbReader["ShipAddress"]),
+                            ShipCity = Convert.ToString(dbReader["ShipCity"]),
+                            ShipCountry = Convert.ToString(dbReader["ShipCountry"]),
+                        };
+                    }
+                }
+
+                connection.Close();
+            }
+            return data;
+        }
+
         public List<Order> List(int page, int pageSize, string customerID, int employeeID, int shipperID)
         {
             List<Order> data = new List<Order>();

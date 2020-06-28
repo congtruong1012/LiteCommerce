@@ -1,4 +1,4 @@
-﻿
+﻿@model LiteCommerce.DomainModels.Order
 @{
     ViewBag.Title = "Order Detail";
     int i = 1;
@@ -9,7 +9,112 @@
     <div class="box box-primary">
         <div class="box-content">
             <div class="box-body">
-                <a href="~/Order" class="pull-right" style="margin-bottom: 20px;">Back to page</a>
+                <div style="display: flex; justify-content: space-between">
+                    <h3 style="margin: 0 " class="text-primary">Order Information</h3>
+                    <a href="~/Order">Back to page</a>
+                </div>
+                <div class="row" style="margin: 10px 0">
+                    <div class="container">
+                        <div class="col-sm-4">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-3">
+                                    <b>Order ID:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.OrderID
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-3">
+                                    <b>Freigth:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.Freight
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-3" style="padding-right:0">
+                                    <b>Ship Address:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Model.ShipAddress <br />
+                                    @string.Format("{0} - {1}", Model.ShipCity, Model.ShipCountry)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-3">
+                                    <b>Customer:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    @foreach (var customer in SelectListHelper.Customer())
+                                    {
+                                        if (Model.CustomerID == customer.Value)
+                                        {
+                                            @customer.Text;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-3">
+                                    <b>Employee:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    @foreach (var employee in SelectListHelper.Employee())
+                                    {
+                                        if (Model.EmployeeID == Convert.ToInt32(employee.Value))
+                                        {
+                                            @employee.Text;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-3" style="padding-right:0">
+                                    <b>Shipper:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    @foreach (var shipper in SelectListHelper.Shiper())
+                                    {
+                                        if (Model.ShipperID == Convert.ToInt32(shipper.Value))
+                                        {
+                                            @shipper.Text;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-4">
+                                    <b>Order Date:</b>
+                                </div>
+                                <div class="col-sm-8">
+                                    @Model.OrderDate.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-4">
+                                    <b>Required Date:</b>
+                                </div>
+                                <div class="col-sm-8">
+                                    @Model.RequiredDate.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-sm-4">
+                                    <b>Shipped Date:</b>
+                                </div>
+                                <div class="col-sm-8">
+                                    @Model.ShippedDate.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-primary">Order Detail</h3>
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -23,7 +128,7 @@
                     </thead>
                     <tbody>
                         @foreach (var item in ViewData["OrderDetail"] as List<LiteCommerce.DomainModels.OrderDetail>)
-                         {
+                        {
                             <tr>
                                 <td align="center">@(i++)</td>
                                 @foreach (var product in SelectListHelper.Product())
@@ -32,26 +137,26 @@
                                     {
                                         <td>@product.Text</td>
                                     }
-                                 }
-                                <td align="center">@item.UnitPrice</td>
+                                }
+                                <td align="center">$ @item.UnitPrice</td>
                                 <td align="center">@item.Quantity</td>
                                 <td align="center">@Math.Round(@item.Discount, 2)</td>
-                                <td align="center">@(Math.Round((item.UnitPrice * item.Quantity) * (100 - item.Discount) / 100, 2))</td>
+                                <td align="center">$ @(Math.Round((item.UnitPrice * item.Quantity) * (1 - item.Discount) , 2))</td>
                                 @{
-                                    total += Math.Round((item.UnitPrice * item.Quantity) * (100 - item.Discount) / 100, 2);
-                                 }
+                                    total += Math.Round((item.UnitPrice * item.Quantity) * (1 - item.Discount) , 2);
+                                }
 
 
                             </tr>
                         }
                         <tr>
                             <td colspan="5" align="right" style="color: red">Total Price:</td>
-                            <td align="center">@total</td>
+                            <td align="center">$ @total</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+            </div>
     </div>
 
 

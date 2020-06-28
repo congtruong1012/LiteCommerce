@@ -17,9 +17,9 @@ namespace LiteCommerce.Admin.Controllers
             var model = new OrderPaginationResult()
             {
                 Page = page,
-                PageSize = AppSettings.DefaultPageSize,
-                RowCount = ReportBLL.Order_Count(page, AppSettings.DefaultPageSize, customerID, employeeID, shipperID),
-                Data = ReportBLL.Order_List(page, AppSettings.DefaultPageSize, customerID, employeeID, shipperID),
+                PageSize = 83,
+                RowCount = ReportBLL.Order_Count(page, 83, customerID, employeeID, shipperID),
+                Data = ReportBLL.Order_List(page, 83, customerID, employeeID, shipperID),
                 customerID = customerID,
                 employeeID = employeeID,
                 shipperID = shipperID
@@ -38,10 +38,12 @@ namespace LiteCommerce.Admin.Controllers
                 return RedirectToAction("Index");
             }
             var model = ReportBLL.OrderDetail_List(Convert.ToInt32(id));
+
             if (model.Count != 0)
             {
                 ViewData["OrderDetail"] = model;
-                return View();
+                var order = ReportBLL.Order_Get(Convert.ToInt32(id));
+                return View(order);
             }
             else
             {
