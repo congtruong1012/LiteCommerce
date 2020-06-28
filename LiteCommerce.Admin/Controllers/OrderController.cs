@@ -47,6 +47,7 @@ namespace LiteCommerce.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+	//Xóa đơn hàng
         [HttpPost]
         public ActionResult Delete(int[] orderIDs)
         {
