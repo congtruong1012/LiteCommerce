@@ -29,5 +29,9 @@ namespace LiteCommerce.BusinessLayers
         {
             return OrderDetailDB.List(orderID);
         }
+        public static bool Order_Delete(int[] orderIDs)
+        {
+            return OrderDB.Delete(orderIDs);
+        }
     }
 }

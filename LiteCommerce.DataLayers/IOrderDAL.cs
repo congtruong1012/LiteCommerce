@@ -11,5 +11,6 @@ namespace LiteCommerce.DataLayers
     {
         List<Order> List(int page, int pageSize, string customerID, int employeeID, int shipperID);
         int Count(int page, int pageSize, string customerID, int employeeID, int shipperID);
+        bool Delete(int[] orderIDs);
     }
 }

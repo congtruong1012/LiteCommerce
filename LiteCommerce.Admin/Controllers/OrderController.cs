@@ -47,5 +47,14 @@ namespace LiteCommerce.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [HttpPost]
+        public ActionResult Delete(int[] orderIDs)
+        {
+            if (orderIDs != null)
+            {
+                var rs = ReportBLL.Order_Delete(orderIDs); 
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -125,14 +125,7 @@
                                 <select class="form-control" id="GroupName">
                                     @foreach (var item in SelectListHelper.listRoles())
                                     {
-                                        if (item.Value == Model.GroupName)
-                                        {
-                                            <option selected="selected" value="@item.Value">@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
+                                        <option value="@item.Value">@item.Text</option>
                                     }
                                 </select>
                             </div>

@@ -15,7 +15,6 @@
                         <tr>
                             <th style="text-align:center">#</th>
                             <th>Product Name</th>
-                            <th style="text-align: center">Image</th>
                             <th style="text-align:center">Unit Price</th>
                             <th style="text-align:center">Quantity</th>
                             <th style="text-align:center">Discount</th>
@@ -34,15 +33,6 @@
                                         <td>@product.Text</td>
                                     }
                                  }
-                            <td align="center">
-                                @foreach (var product in GetListHelper.ListProduct())
-                                {
-                                    if (product.ProductID == item.ProductID)
-                                    {
-                                        <img src="~/Images/@product.PhotoPath" height="50px" width="50px" />
-                                    }
-                                }
-                            </td>
                                 <td align="center">@item.UnitPrice</td>
                                 <td align="center">@item.Quantity</td>
                                 <td align="center">@Math.Round(@item.Discount, 2)</td>
@@ -55,7 +45,7 @@
                             </tr>
                         }
                         <tr>
-                            <td colspan="6" align="right" style="color: red">Total Price:</td>
+                            <td colspan="5" align="right" style="color: red">Total Price:</td>
                             <td align="center">@total</td>
                         </tr>
                     </tbody>

@@ -89,50 +89,55 @@
 
 @if (Model.ProductID != 0)
 {
-    int num = 1;
-    <h4 style="font-weight: 600; margin-bottom: 20px">Information Product Attribute</h4>
-    <form action="~/Product/Delete_Attr" method="post">
-        <div class="pull-right" style="margin: 10px 0">
-            <button type="button" data-toggle="modal" data-target="#add-product_attr" class="btn btn-primary"><i class="fa fa-plus"></i> Add Product Attribute</button>
-            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete product Attribute </button>
-        </div>
-        <input type="hidden" name="productID" value="@Model.ProductID" />
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        <input type="checkbox" name="name" value="" class="listCheck" />
-                    </th>
-                    <th class="text-center">#</th>
-                    <th hidden></th>
-                    <th>Attribute Name</th>
-                    <th>Attribute Value</th>
-                    <th>Display Order</th>
-                    <th style="width: 80px" class="text-center">Edit</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(ViewData["Attribute"] != null){
-                    foreach (var item in ViewData["Attribute"] as List<LiteCommerce.DomainModels.ProductAttribute>)
-                    {
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="attributes" value="@item.AttributeID" class="checkItem"/>
-                            </td>
-                            <td class="text-center">@(num++)</td>
-                            <td hidden>@item.AttributeID</td>
-                            <td>@item.AttributeName</td>
-                            <td>@item.AttributeValues</td>
-                            <td>@item.DisplayOrder</td>
-                            <td class="text-center">
-                                <button class="btn btn-default edit-product_attr" type="button" data-toggle="modal" data-target="#edit-product_attr"><i class="fa fa-edit"></i></button>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </form>
+    <div class="box box-primary">
+            <div class="box-body">
+                @{int num = 1;}
+                <h4 style="font-weight: 600; margin-bottom: 20px">Information Product Attribute</h4>
+                <form action="~/Product/Delete_Attr" method="post">
+                    <div class="pull-right" style="margin: 10px 0">
+                        <button type="button" data-toggle="modal" data-target="#add-product_attr" class="btn btn-primary"><i class="fa fa-plus"></i> Add Product Attribute</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete product Attribute </button>
+                    </div>
+                    <input type="hidden" name="productID" value="@Model.ProductID" />
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" name="name" value="" class="listCheck" />
+                                </th>
+                                <th class="text-center">#</th>
+                                <th hidden></th>
+                                <th>Attribute Name</th>
+                                <th>Attribute Value</th>
+                                <th>Display Order</th>
+                                <th style="width: 80px" class="text-center">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewData["Attribute"] != null)
+                            {
+                                foreach (var item in ViewData["Attribute"] as List<LiteCommerce.DomainModels.ProductAttribute>)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="attributes" value="@item.AttributeID" class="checkItem" />
+                                        </td>
+                                        <td class="text-center">@(num++)</td>
+                                        <td hidden>@item.AttributeID</td>
+                                        <td>@item.AttributeName</td>
+                                        <td>@item.AttributeValues</td>
+                                        <td>@item.DisplayOrder</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-default edit-product_attr" type="button" data-toggle="modal" data-target="#edit-product_attr"><i class="fa fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+    </div>
 }
             
 <div class="modal fade" id="add-product_attr" tabindex="-1" role="dialog">

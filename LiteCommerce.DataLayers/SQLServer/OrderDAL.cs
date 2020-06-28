@@ -50,6 +50,31 @@ namespace LiteCommerce.DataLayers.SQLServer
             return rowCount;
         }
 
+        public bool Delete(int[] orderIDs)
+        {
+            bool result = true;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"DELETE FROM Orders
+                                            WHERE(OrderID = @orderID)
+                                              AND(OrderID NOT IN(SELECT OrderID FROM OrderDetails))";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.Add("@orderID", SqlDbType.Int);
+                foreach (int orderID in orderIDs)
+                {
+                    cmd.Parameters["@orderID"].Value = orderID;
+                    cmd.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+            return result;
+        }
+
         public List<Order> List(int page, int pageSize, string customerID, int employeeID, int shipperID)
         {
             List<Order> data = new List<Order>();

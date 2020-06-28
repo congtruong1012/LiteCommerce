@@ -126,7 +126,6 @@
     <Compile Include="Code\AppSettings.cs" />
     <Compile Include="Code\AuthorizeRedirect.cs" />
     <Compile Include="Code\EncodeMD5.cs" />
-    <Compile Include="Code\GetListHelper.cs" />
     <Compile Include="Code\SelectListHelper.cs" />
     <Compile Include="Code\WebUserData.cs" />
     <Compile Include="Code\WebUserExtensions.cs" />
